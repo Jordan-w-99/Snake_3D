@@ -48,15 +48,11 @@ export default class Snake {
         this.segments[0].heading.copy(this.newHeading);
     }
 
-    isEating(scene, food) {
-        if (this.segments[0].distanceTo(food.position) < 0.1) {
-            this.growSnake(scene);
-            return true;
-        }
-        return false;
+    isEating(food) {
+        return (this.segments[0].distanceTo(food.position) < 0.1);
     }
 
-    growSnake(scene) {
+    grow(scene) {
         const newSegment = (new THREE.Vector3()).copy(this.segments[this.segments.length - 1]);
         newSegment.heading = (new THREE.Vector3()).copy(this.segments[this.segments.length - 1].heading);
         this.segments.push(newSegment);

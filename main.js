@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import Food from './food';
 import Snake from './snake';
 
 const scene = new THREE.Scene();
@@ -40,38 +41,21 @@ ground.rotateX(-Math.PI / 2);
 scene.add(ground);
 
 const snake = new Snake(scene, segmentSize, halfBoardSize);
-
-let food;
-createNewFood();
+const food = new Food(scene, boardSize);
 
 function update() {
   renderer.render(scene, camera);
 
-  // console.log(snake.newHeading);
   snake.update();
-  if(snake.isEating(scene, food)) {
-    createNewFood();
+  if(snake.isEating(food.mesh)) {
+    snake.grow(scene);
+    food.createNew(boardSize);
   }
 
   requestAnimationFrame(update);
 };
 
 update();
-
-function createNewFood() {
-  const x = THREE.MathUtils.randInt(0, boardSize - 1);
-  const z = THREE.MathUtils.randInt(0, boardSize - 1);
-  let newPos = new THREE.Vector3(x, 0, z);
-
-  const newFood = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshStandardMaterial({ color: 0xFFFF00 })
-  );
-  newFood.position.copy(newPos);
-  scene.remove(food);
-  food = newFood;
-  scene.add(newFood);
-}
 
 window.addEventListener('keypress', e => {
   let h;
