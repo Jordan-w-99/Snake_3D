@@ -11,7 +11,7 @@ export default class Snake {
         const head = new THREE.Vector3(Math.floor(halfBoardSize), 0, Math.floor(halfBoardSize));
         head.heading = new THREE.Vector3(0, 0, 0);
         this.segments.push(head);
-        this.createSegment(scene);
+        this.createSegment(scene, head);
     }
 
     update() {
@@ -56,14 +56,17 @@ export default class Snake {
         const newSegment = (new THREE.Vector3()).copy(this.segments[this.segments.length - 1]);
         newSegment.heading = (new THREE.Vector3()).copy(this.segments[this.segments.length - 1].heading);
         this.segments.push(newSegment);
-        this.createSegment(scene);
+        this.createSegment(scene, newSegment);
     }
 
-    createSegment(scene) {
+    createSegment(scene, newSegment) {
         const segment = new THREE.Mesh(
             new THREE.BoxGeometry(this.segmentSize, this.segmentSize, this.segmentSize),
             new THREE.MeshStandardMaterial({ color: 0xFF0000 })
         );
+        segment.position.copy(newSegment);
+        segment.castShadow = true;
+        segment.receiveShadow = true;
         this.mesh.push(segment);
         scene.add(segment);
     }

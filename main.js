@@ -19,12 +19,15 @@ scene.add(camera);
 
 const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('game-canvas') });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.5);
 scene.add(ambientLight);
 
 const pointLight = new THREE.PointLight(0xFFFFFF, 1);
-pointLight.position.copy(camera.position);
+pointLight.position.set(0, 3, 0);
+pointLight.castShadow = true;
 scene.add(pointLight);
 
 const segmentSize = 1;
@@ -32,8 +35,9 @@ const halfSegmentSize = segmentSize / 2;
 
 const ground = new THREE.Mesh(
   new THREE.PlaneGeometry(boardSize, boardSize, boardSize, boardSize),
-  new THREE.MeshStandardMaterial({ color: 0x70CC50, wireframe: true })
+  new THREE.MeshStandardMaterial({ color: 0x70CC50, wireframe: false })
 );
+ground.receiveShadow = true;
 ground.position.setX(halfBoardSize - halfSegmentSize);
 ground.position.setY(-halfSegmentSize);
 ground.position.setZ(halfBoardSize - halfSegmentSize);
@@ -51,6 +55,8 @@ function update() {
     snake.grow(scene);
     food.createNew(boardSize);
   }
+
+  food.update();
 
   requestAnimationFrame(update);
 };
