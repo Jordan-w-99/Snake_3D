@@ -25,10 +25,21 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.5);
 scene.add(ambientLight);
 
-const pointLight = new THREE.PointLight(0xFFFFFF, 1);
-pointLight.position.set(0, 3, 0);
-pointLight.castShadow = true;
-scene.add(pointLight);
+const light = new THREE.DirectionalLight(0xFFFFFF, 0.8);
+light.position.set(boardSize, 5, boardSize);
+light.target.position.set(halfBoardSize, 0, halfBoardSize);
+light.castShadow = true;
+light.shadow.camera.left = -boardSize;
+light.shadow.camera.right = boardSize;
+light.shadow.camera.top = -boardSize;
+light.shadow.camera.bottom = boardSize;
+light.shadow.camera.near = 0.1;
+light.shadow.camera.far = 15;
+light.shadow.mapSize.width = 2048;
+light.shadow.mapSize.height = 2048;
+light.shadow.bias = -0.01;
+scene.add(light);
+scene.add(light.target);
 
 const segmentSize = 1;
 const halfSegmentSize = segmentSize / 2;
