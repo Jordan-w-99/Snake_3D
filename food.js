@@ -30,7 +30,6 @@ export default class Food {
             const z = THREE.MathUtils.randInt(0, boardSize - 1);
             newPos = new THREE.Vector3(x, 0, z);
             isColliding = this.isCollidingWithSnake(newPos, snakeSegments);
-            console.log(isColliding)
         } while (isColliding);
 
         this.mesh.position.copy(newPos);

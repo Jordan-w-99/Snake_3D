@@ -12,12 +12,14 @@ export default class Snake {
         head.heading = new THREE.Vector3(0, 0, 0);
         this.segments.push(head);
         this.createSegment(scene, head);
+
+        this.isEatingSelf = false;
     }
 
     update(boardSize) {
         this.animationProgress += 0.05;
         if (this.animationProgress > 1) {
-            this.shiftSnake(boardSize);
+            this.isEatingSelf = this.shiftSnake(boardSize);
             this.animationProgress = 0;
         }
 
@@ -44,17 +46,21 @@ export default class Snake {
         newSegments[0].x += newSegments[0].heading.x;
         newSegments[0].z += newSegments[0].heading.z;
 
-        if(newSegments[0].x < 0){
+        if (newSegments[0].x < 0) {
             newSegments[0].x = boardSize - 1;
         }
-        else if(newSegments[0].x >= boardSize){
+        else if (newSegments[0].x >= boardSize) {
             newSegments[0].x = 0;
         }
-        if(newSegments[0].z < 0){
+        if (newSegments[0].z < 0) {
             newSegments[0].z = boardSize - 1;
         }
-        else if(newSegments[0].z >= boardSize){
+        else if (newSegments[0].z >= boardSize) {
             newSegments[0].z = 0;
+        }
+
+        if (this.eatingSelf(newSegments)) {
+            return true;
         }
 
         this.segments = newSegments;
@@ -63,6 +69,17 @@ export default class Snake {
 
     isEating(food) {
         return (this.segments[0].distanceTo(food.position) < 0.1);
+    }
+
+    eatingSelf(newSegments) {
+        if (newSegments.length > 1) {
+            for (let i = 1; i < newSegments.length; i++) {
+                if (newSegments[i].distanceTo(newSegments[0]) == 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     grow(scene) {

@@ -55,32 +55,50 @@ ground.position.setZ(halfBoardSize - halfSegmentSize);
 ground.rotateX(-Math.PI / 2);
 scene.add(ground);
 
-const snake = new Snake(scene, segmentSize, halfBoardSize);
-const food = new Food(scene, boardSize);
-let score = 0;
+let snake;
+let food;
+let score;
+let paused = false;
+
+function setupGame() {
+  snake = new Snake(scene, segmentSize, halfBoardSize);
+  food = new Food(scene, boardSize);
+  score = 0;
+}
+
+setupGame();
+update();
 
 function update() {
   renderer.render(scene, camera);
 
-  snake.update(boardSize);
-  if (snake.isEating(food.mesh)) {
-    snake.grow(scene);
-    if (score < boardSize * boardSize) {
-      food.createNew(boardSize, snake.segments);
-    } else {
-      console.log("you win");
+  if (!paused) {
+
+    snake.update(boardSize);
+    if (snake.isEating(food.mesh)) {
+      snake.grow(scene);
+      if (score < boardSize * boardSize) {
+        food.createNew(boardSize, snake.segments);
+      } else {
+        console.log("you win");
+        paused = true;
+      }
+      score++;
     }
-    score++;
+
+    if (snake.isEatingSelf) {
+      console.log("you lose");
+      paused = true;
+    }
+
+    document.getElementById('score-display').innerText = score;
+
+    food.update();
+
   }
-
-  document.getElementById('score-display').innerText = score;
-
-  food.update();
 
   requestAnimationFrame(update);
 };
-
-update();
 
 window.addEventListener('keypress', e => {
   let h;
@@ -101,9 +119,25 @@ window.addEventListener('keypress', e => {
     case 'd':
       h = new THREE.Vector3(1, 0, 0);
       break;
+
+    case 'r':
+      paused = false;
+      removeMeshes();
+      setupGame();
+      break;
   }
 
-  if (h.x != snake.segments[0].heading.x * -1 || h.z != snake.segments[0].heading.z * -1) {
-    snake.newHeading = h;
+  function removeMeshes() {
+    scene.remove(food.mesh);
+
+    for (let seg of snake.mesh) {
+      scene.remove(seg);
+    }
+  };
+
+  if (h) {
+    if (h.x != snake.segments[0].heading.x * -1 || h.z != snake.segments[0].heading.z * -1) {
+      snake.newHeading = h;
+    }
   }
 })
