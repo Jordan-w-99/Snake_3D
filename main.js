@@ -57,6 +57,7 @@ scene.add(ground);
 
 const snake = new Snake(scene, segmentSize, halfBoardSize);
 const food = new Food(scene, boardSize);
+let score = 0;
 
 function update() {
   renderer.render(scene, camera);
@@ -65,7 +66,10 @@ function update() {
   if(snake.isEating(food.mesh)) {
     snake.grow(scene);
     food.createNew(boardSize);
+    score++;
   }
+
+  document.getElementById('score-display').innerText = score;
 
   food.update();
 
