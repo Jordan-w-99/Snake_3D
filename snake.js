@@ -14,10 +14,10 @@ export default class Snake {
         this.createSegment(scene, head);
     }
 
-    update() {
+    update(boardSize) {
         this.animationProgress += 0.05;
         if (this.animationProgress > 1) {
-            this.shiftSnake();
+            this.shiftSnake(boardSize);
             this.animationProgress = 0;
         }
 
@@ -33,7 +33,7 @@ export default class Snake {
         }
     }
 
-    shiftSnake() {
+    shiftSnake(boardSize) {
         const newSegments = this.segments;
         for (let i = this.segments.length - 1; i >= 1; i--) {
             newSegments[i].x = newSegments[i - 1].x;
@@ -43,6 +43,19 @@ export default class Snake {
 
         newSegments[0].x += newSegments[0].heading.x;
         newSegments[0].z += newSegments[0].heading.z;
+
+        if(newSegments[0].x < 0){
+            newSegments[0].x = boardSize - 1;
+        }
+        else if(newSegments[0].x >= boardSize){
+            newSegments[0].x = 0;
+        }
+        if(newSegments[0].z < 0){
+            newSegments[0].z = boardSize - 1;
+        }
+        else if(newSegments[0].z >= boardSize){
+            newSegments[0].z = 0;
+        }
 
         this.segments = newSegments;
         this.segments[0].heading.copy(this.newHeading);

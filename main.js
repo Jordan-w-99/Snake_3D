@@ -61,7 +61,7 @@ const food = new Food(scene, boardSize);
 function update() {
   renderer.render(scene, camera);
 
-  snake.update();
+  snake.update(boardSize);
   if(snake.isEating(food.mesh)) {
     snake.grow(scene);
     food.createNew(boardSize);
