@@ -63,9 +63,13 @@ function update() {
   renderer.render(scene, camera);
 
   snake.update(boardSize);
-  if(snake.isEating(food.mesh)) {
+  if (snake.isEating(food.mesh)) {
     snake.grow(scene);
-    food.createNew(boardSize);
+    if (score < boardSize * boardSize) {
+      food.createNew(boardSize, snake.segments);
+    } else {
+      console.log("you win");
+    }
     score++;
   }
 
