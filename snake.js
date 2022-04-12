@@ -7,6 +7,9 @@ export default class Snake {
         this.animationProgress = 0;
         this.newHeading = new THREE.Vector3(0, 0, 0);
         this.segmentSize = segmentSize;
+        this.speed = 0.04;
+        this.maxSpeed = 0.2;
+        this.speedRate = 0.0025;
 
         const head = new THREE.Vector3(Math.floor(halfBoardSize), 0, Math.floor(halfBoardSize));
         head.heading = new THREE.Vector3(0, 0, 0);
@@ -17,7 +20,7 @@ export default class Snake {
     }
 
     update(boardSize) {
-        this.animationProgress += 0.05;
+        this.animationProgress += this.speed;
         if (this.animationProgress > 1) {
             this.isEatingSelf = this.shiftSnake(boardSize);
             this.animationProgress = 0;
@@ -87,6 +90,10 @@ export default class Snake {
         newSegment.heading = (new THREE.Vector3()).copy(this.segments[this.segments.length - 1].heading);
         this.segments.push(newSegment);
         this.createSegment(scene, newSegment);
+        
+        if(this.speed < this.maxSpeed){
+            this.speed += this.speedRate;
+        }
     }
 
     createSegment(scene, newSegment) {

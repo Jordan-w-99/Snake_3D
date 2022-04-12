@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import Food from './food';
 import Snake from './snake';
 
+
+
 const scene = new THREE.Scene();
 
 const aspect = window.innerWidth / window.innerHeight;
@@ -58,12 +60,20 @@ scene.add(ground);
 let snake;
 let food;
 let score;
-let paused = false;
+let paused = true;
 
 function setupGame() {
   snake = new Snake(scene, segmentSize, halfBoardSize);
   food = new Food(scene, boardSize);
   score = 0;
+}
+
+// setup buttons
+document.getElementById('play-btn').onclick = playPressed;
+
+function playPressed() {
+  paused = false;
+  document.getElementById("menu-screen").style.display = 'none';
 }
 
 setupGame();
@@ -84,6 +94,7 @@ function update() {
         paused = true;
       }
       score++;
+      document.getElementById('score-display').innerText = score;
     }
 
     if (snake.isEatingSelf) {
@@ -91,7 +102,6 @@ function update() {
       paused = true;
     }
 
-    document.getElementById('score-display').innerText = score;
 
     food.update();
 
@@ -100,7 +110,7 @@ function update() {
   requestAnimationFrame(update);
 };
 
-window.addEventListener('keypress', e => {
+window.addEventListener('keydown', e => {
   let h;
 
   switch (e.key) {
@@ -125,7 +135,20 @@ window.addEventListener('keypress', e => {
       removeMeshes();
       setupGame();
       break;
+
+    case 'Escape':
+      console.log("pausing");
+      if (!paused) {
+        paused = true;
+        document.getElementById("pause-screen").style.display = 'flex';
+      } else {
+        paused = false
+        document.getElementById("pause-screen").style.display = 'none';
+      }
+      break;
   }
+
+  
 
   function removeMeshes() {
     scene.remove(food.mesh);

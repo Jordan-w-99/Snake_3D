@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="./style.css">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <canvas id="game-canvas"></canvas>
-    <div id="score-display"></div>
-    <script type="module" src="/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="./style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+</head>
+
+<body>
+  <canvas id="game-canvas"></canvas>
+  <div id="score-display">0</div>
+  <div id="menu-container">
+    <div id="menu-screen" class="screen">
+      <button id="play-btn">Play</button>
+    </div>
+    <div id="end-screen" class="screen">END</div>
+    <div id="pause-screen" class="screen">Paused</div>
+  </div>
+  <script type="module" src="/main.js"></script>
+</body>
+
 </html>
