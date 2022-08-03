@@ -30,9 +30,22 @@ export default class Snake {
     }
 
     updateSnakeMesh() {
-        for (let i = 0; i <= this.mesh.length - 1; i++) {
-            const xPos = this.segments[i].x + this.segments[i].heading.x * this.animationProgress;
-            const zPos = this.segments[i].z + this.segments[i].heading.z * this.animationProgress;
+        const headXPos = this.segments[0].x + this.segments[0].heading.x * this.animationProgress;
+        const headZPos = this.segments[0].z + this.segments[0].heading.z * this.animationProgress;
+        this.mesh[0].position.setX(headXPos);
+        this.mesh[0].position.setZ(headZPos);
+
+        if (this.mesh.length > 1) {
+            const tailIndex = this.mesh.length - 1;
+            const tailXPos = this.segments[tailIndex - 1].x + this.segments[tailIndex - 1].heading.x * this.animationProgress;
+            const tailZPos = this.segments[tailIndex - 1].z + this.segments[tailIndex - 1].heading.z * this.animationProgress;
+            this.mesh[tailIndex].position.setX(tailXPos);
+            this.mesh[tailIndex].position.setZ(tailZPos);
+        }
+
+        for (let i = 1; i <= this.mesh.length - 2; i++) {
+            const zPos = this.segments[i].z + this.segments[i].heading.z;
+            const xPos = this.segments[i].x + this.segments[i].heading.x;
             this.mesh[i].position.setX(xPos);
             this.mesh[i].position.setZ(zPos);
         }
@@ -49,20 +62,7 @@ export default class Snake {
         newSegments[0].x += newSegments[0].heading.x;
         newSegments[0].z += newSegments[0].heading.z;
 
-        if (newSegments[0].x < 0) {
-            newSegments[0].x = boardSize - 1;
-        }
-        else if (newSegments[0].x >= boardSize) {
-            newSegments[0].x = 0;
-        }
-        if (newSegments[0].z < 0) {
-            newSegments[0].z = boardSize - 1;
-        }
-        else if (newSegments[0].z >= boardSize) {
-            newSegments[0].z = 0;
-        }
-
-        if (this.eatingSelf(newSegments)) {
+        if (this.eatingSelf(newSegments) || this.isOutOfBounds(newSegments, boardSize)) {
             return true;
         }
 
@@ -70,12 +70,21 @@ export default class Snake {
         this.segments[0].heading.copy(this.newHeading);
     }
 
+    isOutOfBounds(newSegments, boardSize) {
+        return (
+            newSegments[0].x < 0 ||
+            newSegments[0].x >= boardSize ||
+            newSegments[0].z < 0 ||
+            newSegments[0].z >= boardSize
+        )
+    }
+
     isEating(food) {
         return (this.segments[0].distanceTo(food.position) < 0.1);
     }
 
     eatingSelf(newSegments) {
-        if (newSegments.length > 1) {
+        if (newSegments.length > 2) {
             for (let i = 1; i < newSegments.length; i++) {
                 if (newSegments[i].distanceTo(newSegments[0]) == 0) {
                     return true;
@@ -90,8 +99,8 @@ export default class Snake {
         newSegment.heading = (new THREE.Vector3()).copy(this.segments[this.segments.length - 1].heading);
         this.segments.push(newSegment);
         this.createSegment(scene, newSegment);
-        
-        if(this.speed < this.maxSpeed){
+
+        if (this.speed < this.maxSpeed) {
             this.speed += this.speedRate;
         }
     }

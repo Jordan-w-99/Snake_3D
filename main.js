@@ -2,21 +2,22 @@ import * as THREE from 'three';
 import Food from './food';
 import Snake from './snake';
 
-
-
 const scene = new THREE.Scene();
 
 const aspect = window.innerWidth / window.innerHeight;
-const frustumSize = 8;
+const frustumSize = 10;
 
-const boardSize = 9;
+const boardSize = frustumSize;
 const halfBoardSize = boardSize / 2
 
 const camera = new THREE.OrthographicCamera(frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, 0.1, 1000);
-camera.position.setZ(10);
-camera.position.setX(3);
-camera.position.setY(3);
-camera.lookAt(new THREE.Vector3(halfBoardSize, 0, halfBoardSize));
+camera.position.setZ(boardSize - 0.5);
+camera.position.setX(-0.5);
+camera.position.setY(halfBoardSize);
+camera.lookAt(new THREE.Vector3(halfBoardSize - 0.5, 0, halfBoardSize -0.5));
+
+// const cameraHelper = new THREE.CameraHelper(camera);
+// scene.add(cameraHelper);
 scene.add(camera);
 
 const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('game-canvas') });
@@ -112,6 +113,10 @@ function update() {
 
 window.addEventListener('keydown', e => {
   let h;
+
+  if(snake.mesh.length == 1) {
+    snake.grow(scene);
+  }
 
   switch (e.key) {
     case 'w':

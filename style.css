@@ -74,3 +74,15 @@ button:hover {
   font-size: 20pt;
   margin-top: 10px;
 }
+
+#controls-display {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 200px;
+  height: 200px;
+  background-image: url("controls.png");
+  background-color: black;
+  background-size: 100%;
+}
