@@ -80,9 +80,10 @@ button:hover {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 200px;
-  height: 200px;
+  width: 225px;
+  height: 150px;
   background-image: url("controls.png");
   background-color: black;
   background-size: 100%;
+  margin: 20px;
 }
