@@ -35,6 +35,11 @@ export default class Snake {
         this.mesh[0].position.setX(headXPos);
         this.mesh[0].position.setZ(headZPos);
 
+        // check if is off edge, or eating self here
+        // if (this.isEatingSelf(head) || this.isOutOfBounds(newSegments, boardSize)) {
+        //     return true;
+        // }
+
         if (this.mesh.length > 1) {
             const tailIndex = this.mesh.length - 1;
             const tailXPos = this.segments[tailIndex - 1].x + this.segments[tailIndex - 1].heading.x * this.animationProgress;
@@ -110,6 +115,7 @@ export default class Snake {
             new THREE.BoxGeometry(this.segmentSize, this.segmentSize, this.segmentSize),
             new THREE.MeshStandardMaterial({ color: 0xFF0000 })
         );
+        segment.geometry.computeBoundingBox();
         segment.position.copy(newSegment);
         segment.castShadow = true;
         segment.receiveShadow = true;

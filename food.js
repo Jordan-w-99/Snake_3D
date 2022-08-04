@@ -22,6 +22,9 @@ export default class Food {
                 new THREE.MeshStandardMaterial({ color: 0x6F4211, flatShading: false }),
                 new THREE.MeshStandardMaterial({ color: 0x1DB10C, flatShading: false }),
             ]
+
+            this.mesh.castShadow = true;
+            this.mesh.receiveShadow = true;
             console.log(this.mesh);
             scene.add(this.mesh);
             this.createNew(boardSize, []);

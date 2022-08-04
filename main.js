@@ -14,7 +14,7 @@ const camera = new THREE.OrthographicCamera(frustumSize * aspect / - 2, frustumS
 camera.position.setZ(boardSize - 0.5);
 camera.position.setX(-0.5);
 camera.position.setY(halfBoardSize);
-camera.lookAt(new THREE.Vector3(halfBoardSize - 0.5, 0, halfBoardSize -0.5));
+camera.lookAt(new THREE.Vector3(halfBoardSize - 0.5, 0, halfBoardSize - 0.5));
 
 // const cameraHelper = new THREE.CameraHelper(camera);
 // scene.add(cameraHelper);
@@ -47,15 +47,38 @@ scene.add(light.target);
 const segmentSize = 1;
 const halfSegmentSize = segmentSize / 2;
 
+const textureLoader = new THREE.TextureLoader();
+const textureCube = [
+  new THREE.MeshBasicMaterial({
+    color: 0x000000
+  }),
+  new THREE.MeshStandardMaterial({
+    map: textureLoader.load("./dirt.png") // X- (VISIBLE LEFT)
+  }),
+  new THREE.MeshStandardMaterial({
+    map: textureLoader.load("./grass.png"), // Z+ (VISIBLE TOP)
+  }),
+  new THREE.MeshBasicMaterial({
+    color: 0x000000
+  }),
+  new THREE.MeshStandardMaterial({
+    map: textureLoader.load("./dirt.png") // Y- (VISIBLE RIGHT)
+  }),
+  new THREE.MeshBasicMaterial({
+    color: 0x000000
+  }),
+];
+
 const ground = new THREE.Mesh(
-  new THREE.PlaneGeometry(boardSize, boardSize, boardSize, boardSize),
-  new THREE.MeshStandardMaterial({ color: 0x70CC50, wireframe: false })
+  new THREE.BoxGeometry(boardSize, boardSize, boardSize, boardSize),
+  textureCube
 );
+// new THREE.MeshStandardMaterial({ wireframe: false, map: textureCube })
 ground.receiveShadow = true;
 ground.position.setX(halfBoardSize - halfSegmentSize);
-ground.position.setY(-halfSegmentSize);
+ground.position.setY(-halfSegmentSize - halfBoardSize);
 ground.position.setZ(halfBoardSize - halfSegmentSize);
-ground.rotateX(-Math.PI / 2);
+// ground.rotateX(-Math.PI / 2);
 scene.add(ground);
 
 let snake;
@@ -114,7 +137,7 @@ function update() {
 window.addEventListener('keydown', e => {
   let h;
 
-  if(snake.mesh.length == 1) {
+  if (snake.mesh.length == 1) {
     snake.grow(scene);
   }
 
@@ -153,7 +176,7 @@ window.addEventListener('keydown', e => {
       break;
   }
 
-  
+
 
   function removeMeshes() {
     scene.remove(food.mesh);
