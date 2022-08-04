@@ -1,13 +1,33 @@
 import * as THREE from 'three';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
+import { randFloat } from 'three/src/math/MathUtils';
 
 export default class Food {
     constructor(scene, boardSize) {
         this.size = 0.5;
         this.animationProgress = 0;
         this.animationSpeed = 0.05;
-        this.mesh = Food.createMesh(this.size);
-        scene.add(this.mesh);
-        this.createNew(boardSize, []);
+        this.loaded = false;
+        // this.mesh = Food.createMesh(this.size);
+
+        const loader = new OBJLoader();
+        loader.load('apple.obj', object => {
+            console.log(object);
+            this.mesh = object.children[0];
+            this.mesh.rotateY(randFloat(0, Math.PI * 2));
+            this.mesh.scale.set(0.3, 0.3, 0.3);
+            
+            this.mesh.material = [
+                new THREE.MeshStandardMaterial({ color: 0xC7372F, flatShading: false }),
+                new THREE.MeshStandardMaterial({ color: 0x6F4211, flatShading: false }),
+                new THREE.MeshStandardMaterial({ color: 0x1DB10C, flatShading: false }),
+            ]
+            console.log(this.mesh);
+            scene.add(this.mesh);
+            this.createNew(boardSize, []);
+        }, undefined, error => {
+            console.error(error);
+        });
     }
 
     static createMesh(size) {
@@ -33,6 +53,7 @@ export default class Food {
         } while (isColliding);
 
         this.mesh.position.copy(newPos);
+        this.mesh.rotateY(randFloat(0, Math.PI * 2));
     }
 
     isCollidingWithSnake(pos, snakeSegments) {
@@ -52,5 +73,6 @@ export default class Food {
         }
 
         this.mesh.position.setY(1 / 32 * Math.sin(this.animationProgress));
+        this.mesh.rotateY(0.004);
     }
 }
