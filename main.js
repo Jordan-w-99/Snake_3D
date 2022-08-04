@@ -5,7 +5,7 @@ import Snake from './snake';
 const scene = new THREE.Scene();
 
 const aspect = window.innerWidth / window.innerHeight;
-const frustumSize = 10;
+const frustumSize = 15;
 
 const boardSize = frustumSize;
 const halfBoardSize = boardSize / 2
@@ -28,8 +28,8 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.5);
 scene.add(ambientLight);
 
-const light = new THREE.DirectionalLight(0xFFFFFF, 0.8);
-light.position.set(boardSize, 5, boardSize);
+const light = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+light.position.set(boardSize - boardSize/3, boardSize/2, boardSize - boardSize/3);
 light.target.position.set(halfBoardSize, 0, halfBoardSize);
 light.castShadow = true;
 light.shadow.camera.left = -boardSize;
@@ -37,10 +37,12 @@ light.shadow.camera.right = boardSize;
 light.shadow.camera.top = -boardSize;
 light.shadow.camera.bottom = boardSize;
 light.shadow.camera.near = 0.1;
-light.shadow.camera.far = 15;
+light.shadow.camera.far = boardSize;
 light.shadow.mapSize.width = 2048;
 light.shadow.mapSize.height = 2048;
 light.shadow.bias = -0.01;
+// const lightHelper = new THREE.CameraHelper(light.shadow.camera);
+// scene.add(lightHelper);
 scene.add(light);
 scene.add(light.target);
 
