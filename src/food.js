@@ -11,7 +11,7 @@ export default class Food {
         // this.mesh = Food.createMesh(this.size);
 
         const loader = new OBJLoader();
-        loader.load('apple.obj', object => {
+        loader.load('./assets/apple.obj', object => {
             console.log(object);
             this.mesh = object.children[0];
             this.mesh.rotateY(randFloat(0, Math.PI * 2));

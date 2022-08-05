@@ -55,16 +55,16 @@ const textureCube = [
     color: 0x000000
   }),
   new THREE.MeshStandardMaterial({
-    map: textureLoader.load("./dirt.png") // X- (VISIBLE LEFT)
+    map: textureLoader.load("./assets/dirt.png") // X- (VISIBLE LEFT)
   }),
   new THREE.MeshStandardMaterial({
-    map: textureLoader.load("./grass.png"), // Z+ (VISIBLE TOP)
+    map: textureLoader.load("./assets/grass.png"), // Z+ (VISIBLE TOP)
   }),
   new THREE.MeshBasicMaterial({
     color: 0x000000
   }),
   new THREE.MeshStandardMaterial({
-    map: textureLoader.load("./dirt.png") // Y- (VISIBLE RIGHT)
+    map: textureLoader.load("./assets/dirt.png") // Y- (VISIBLE RIGHT)
   }),
   new THREE.MeshBasicMaterial({
     color: 0x000000
