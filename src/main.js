@@ -4,6 +4,9 @@ import Snake from './snake';
 
 import dirt_texture from './assets/dirt.png';
 import grass_texture from './assets/grass.png';
+import controls_img from "./assets/controls.png";
+
+document.getElementById('controls-display').style.backgroundImage = `url(${controls_img})`
 
 const scene = new THREE.Scene();
 
