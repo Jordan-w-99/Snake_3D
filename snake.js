@@ -35,6 +35,9 @@ export default class Snake {
         this.mesh[0].position.setX(headXPos);
         this.mesh[0].position.setZ(headZPos);
 
+        // this.mesh[0].rotation.x = (this.segments[0].heading.x * -Math.PI / 2 + Math.PI/2);
+        // this.mesh[0].rotation.z = (this.segments[0].heading.z * -Math.PI / 2 + Math.PI/2);
+
         // check if is off edge, or eating self here
         // if (this.isEatingSelf(head) || this.isOutOfBounds(newSegments, boardSize)) {
         //     return true;
@@ -46,6 +49,9 @@ export default class Snake {
             const tailZPos = this.segments[tailIndex - 1].z + this.segments[tailIndex - 1].heading.z * this.animationProgress;
             this.mesh[tailIndex].position.setX(tailXPos);
             this.mesh[tailIndex].position.setZ(tailZPos);
+
+            // this.mesh[tailIndex].rotation.x = (this.segments[tailIndex].heading.x * Math.PI / 2 + Math.PI/2);
+            // this.mesh[tailIndex].rotation.z = (this.segments[tailIndex].heading.z * Math.PI / 2 + Math.PI/2);
         }
 
         for (let i = 1; i <= this.mesh.length - 2; i++) {
@@ -53,6 +59,9 @@ export default class Snake {
             const xPos = this.segments[i].x + this.segments[i].heading.x;
             this.mesh[i].position.setX(xPos);
             this.mesh[i].position.setZ(zPos);
+
+            // this.mesh[i].rotation.x = (this.segments[i].heading.x * -Math.PI / 2 + Math.PI/2);
+            // this.mesh[i].rotation.z = (this.segments[i].heading.z * -Math.PI / 2 + Math.PI/2);
         }
     }
 
@@ -111,11 +120,14 @@ export default class Snake {
     }
 
     createSegment(scene, newSegment) {
+        // const segment = new THREE.Mesh(
+        //     new THREE.CylinderGeometry(this.segmentSize / 2, this.segmentSize / 2, this.segmentSize),
+        //     new THREE.MeshStandardMaterial({ color: 0xFF0000 })
+        // );
         const segment = new THREE.Mesh(
             new THREE.BoxGeometry(this.segmentSize, this.segmentSize, this.segmentSize),
-            new THREE.MeshStandardMaterial({ color: 0xFF0000 })
+            new THREE.MeshStandardMaterial({ color: 0x4287F5 })
         );
-        segment.geometry.computeBoundingBox();
         segment.position.copy(newSegment);
         segment.castShadow = true;
         segment.receiveShadow = true;
