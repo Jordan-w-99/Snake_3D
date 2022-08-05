@@ -2,8 +2,6 @@ import * as THREE from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
 import { randFloat } from 'three/src/math/MathUtils';
 
-import apple_obj from "./assets/apple.obj";
-
 export default class Food {
     constructor(scene, boardSize) {
         this.size = 0.5;
@@ -13,7 +11,7 @@ export default class Food {
         // this.mesh = Food.createMesh(this.size);
 
         const loader = new OBJLoader();
-        loader.load(apple_obj, object => {
+        loader.load("./assets/apple.obj", object => {
             console.log(object);
             this.mesh = object.children[0];
             this.mesh.rotateY(randFloat(0, Math.PI * 2));

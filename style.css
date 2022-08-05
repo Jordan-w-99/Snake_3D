@@ -82,7 +82,7 @@ button:hover {
   left: 0;
   width: 225px;
   height: 150px;
-  background-image: url("./src/assets/controls.png");
+  background-image: url("./public/controls.png");
   background-color: black;
   background-size: 100%;
   margin: 20px;
