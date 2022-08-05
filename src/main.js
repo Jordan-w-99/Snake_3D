@@ -2,6 +2,9 @@ import * as THREE from 'three';
 import Food from './food';
 import Snake from './snake';
 
+import dirt_texture from './assets/dirt.png';
+import grass_texture from './assets/grass.png';
+
 const scene = new THREE.Scene();
 
 const aspect = window.innerWidth / window.innerHeight;
@@ -55,16 +58,16 @@ const textureCube = [
     color: 0x000000
   }),
   new THREE.MeshStandardMaterial({
-    map: textureLoader.load("./assets/dirt.png") // X- (VISIBLE LEFT)
+    map: textureLoader.load(dirt_texture) // X- (VISIBLE LEFT)
   }),
   new THREE.MeshStandardMaterial({
-    map: textureLoader.load("./assets/grass.png"), // Z+ (VISIBLE TOP)
+    map: textureLoader.load(grass_texture), // Z+ (VISIBLE TOP)
   }),
   new THREE.MeshBasicMaterial({
     color: 0x000000
   }),
   new THREE.MeshStandardMaterial({
-    map: textureLoader.load("./assets/dirt.png") // Y- (VISIBLE RIGHT)
+    map: textureLoader.load(dirt_texture) // Y- (VISIBLE RIGHT)
   }),
   new THREE.MeshBasicMaterial({
     color: 0x000000
